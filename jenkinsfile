@@ -1,0 +1,48 @@
+pipeline {
+    agent any
+    environment {
+        S3_BUCKET = 'deploy-s'  // Replace with your S3 bucket name
+        ZIP_FILE = 'deployment.zip'
+    }
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/Aashish-cyber/BasicCI-CD.git'  // Replace with your repository
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'echo Building the application'
+            }
+        }
+        stage('Package Application') {
+            steps {
+                sh '''
+                    zip -r $ZIP_FILE .  # Create a zip file of your application
+                '''
+            }
+        }
+        stage('Upload to S3') {
+            steps {
+                withAWS(credentials: '85e2736e-0b35-4519-a6ea-5aabf696fa85' {  // Use your AWS credentials
+                    sh '''
+                        aws s3 cp $ZIP_FILE s3://$S3_BUCKET/$ZIP_FILE  # Upload the zip file to your S3 bucket
+                    '''
+                }
+            }
+        }
+        stage('Deploy to AWS CodeDeploy') {
+            steps {
+                withAWS(credentials: '85e2736e-0b35-4519-a6ea-5aabf696fa85') {
+                    sh '''
+                        aws deploy create-deployment \
+                        --application-name BasicCI-CD \  # Replace with your CodeDeploy application name
+                        --deployment-group-name BasicCI-CD \  # Replace with your CodeDeploy deployment group name
+                        --s3-location bucket=deploy-s,bundleType=zip,key=$ZIP_FILE  # Point to your uploaded zip file in S3
+                    '''
+                }
+            }
+        }
+    }
+}
+
