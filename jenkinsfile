@@ -24,7 +24,7 @@ pipeline {
         }
         stage('Upload to S3') {
             steps {
-                withAWS(credentials: '85e2736e-0b35-4519-a6ea-5aabf696fa85') {  // Your AWS credentials ID
+                withAWS(credentials: '85e2736e-0b35-4519-a6ea-5aabf696fa85', region: 'ap-south-1') {  // Your AWS credentials ID
                     sh '''
                         aws s3 cp $ZIP_FILE s3://$S3_BUCKET/$ZIP_FILE  # Upload the zip file to your S3 bucket
                     '''
@@ -33,7 +33,7 @@ pipeline {
         }
         stage('Deploy to AWS CodeDeploy') {
             steps {
-                withAWS(credentials: '85e2736e-0b35-4519-a6ea-5aabf696fa85') {  // Your AWS credentials ID
+                withAWS(credentials: '85e2736e-0b35-4519-a6ea-5aabf696fa85', region: 'ap-south-1') {  // Your AWS credentials ID
                     sh '''
                         aws deploy create-deployment \
                         --application-name BasicCI-CD \
