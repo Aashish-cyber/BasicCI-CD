@@ -37,7 +37,7 @@ pipeline {
                     sh '''
                         aws deploy create-deployment \
                         --application-name BasicCI-CD \
-                        --deployment-group-name BasicCI-CD \
+                        --deployment-group-name BasicCi-CD \
                         --s3-location bucket=$S3_BUCKET,bundleType=zip,key="$ZIP_FILE"  # Point to your uploaded zip file in S3
                     '''
                 }
