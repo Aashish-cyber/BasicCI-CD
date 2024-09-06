@@ -5,6 +5,8 @@ files:
     destination: /home/ubuntu/BasicCI-CD
     overwrite: true
     ignore:
+      - .lesshst
+    ignore:
       - .wget-hsts
 hooks:
   BeforeInstall:
