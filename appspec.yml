@@ -1,0 +1,17 @@
+version: 0.0
+os: linux
+files: 
+  - source: /
+    destination: /home/ubuntu/BasicCI-CD
+hooks:
+  BeforeStop:
+    - location: scripts/cleanup.sh
+      timeout: 300
+      runas: ubuntu
+    - location: scripts/stop_flask.sh
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    - location: scripts/start_flask.sh
+      timeout: 300
+      runas: ubuntu
