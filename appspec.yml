@@ -3,6 +3,8 @@ os: linux
 files: 
   - source: /
     destination: /home/ubuntu/BasicCI-CD
+    ignore:
+      - .wget-hsts
 hooks:
   BeforeInstall:
     - location: scripts/cleanup.sh
