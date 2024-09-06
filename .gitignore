@@ -1,0 +1,19 @@
+# Ignore system files and user-specific configs
+.bash_history
+.bash_logout
+.bashrc
+.lesshst
+.profile
+.sudo_as_admin_successful
+.viminfo
+.wget-hsts
+
+# Ignore cache and temporary files
+.cache/
+.ssh/
+
+# Ignore Python virtual environment
+venv/
+
+# Ignore deployment-related temporary files
+install
